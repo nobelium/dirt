@@ -5,21 +5,6 @@
  */
 
 (function(window, document, ko){
-	var cards = document.getElementsByClassName("card-border");
-	var boxes = document.getElementsByTagName("td");
-
-	for(i=0;i<cards.length;i++){
-		//console.log(cards[i]);
-		cards[i].setAttribute("draggable","true");
-		cards[i].setAttribute("data-bind","cardext :{ name :'card"+i+"'}");
-	}
-
-	for(j=0;j<boxes.length;j++){
-		//console.log(boxes[j]);
-		boxes[j].setAttribute("data-bind","boxext :{ name :'box"+i+"'}");
-
-	}
-
 	//my extension for knockout 
 	var dragitem = null;
 
@@ -65,7 +50,6 @@
 
 
 				ko.utils.registerEventHandler(element, 'drop', function (event) {
-					//console.log("drop");
 					//handle drop event
 					//get source container n event.target returns the current target container
 					event.stopPropagation();
@@ -73,19 +57,14 @@
 							event.stopPropagation(); // stops the browser from redirecting.
 					}
 
-					//console.log(event.target);
-
 					var flag = 1;
   		
   					if(dragitem.parentNode === event.target){flag = 0;}
   					if(flag) {
   						flag = 0;
-  						for(i in boxes){
-							if(event.target === boxes[i]){flag=1;break;}
-						}
+						if(event.target.getAttribute("data-bind").match(/boxext/).length > 0) flag=1; 
   					}
   					if(flag) {
-  						//console.log("changing");
   						event.target.appendChild(dragitem);
   					}
 

@@ -10,9 +10,9 @@
         %p="##{stream[:id]}"
         %p=stream[:Subject]
       - lanes.each do |lane|
-        %td
+        %td{data:{bind: "boxext :{ name :'box'}"}}
           - stream_cards(:stream => stream, :lane => lane).each do |card|  
-            .card-border
+            .card-border{draggable: "true", data: {bind: "cardext :{ name :'#{card[:id]}'}"}}
               .card{class: card[:age_class]}
                 %p="##{card[:id]}"
                 %p=card[:Owner]
@@ -32,6 +32,6 @@
               %p
                 %span.card-subject(title="#{card[:Subject]}")=card[:short_subject]
 
-%script{src: "/js/ko.min-2.2.1.js?version=#{rand(5)}"}
+%script{src: "/js/knockout-min-2.2.1.js?version=#{rand(5)}"}
 %script{src: "/js/taskboard.js?version=#{rand(5)}"}
     
