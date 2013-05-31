@@ -12,7 +12,7 @@
       - lanes.each do |lane|
         %td{data:{bind: "boxext :{ name :'box'}"}}
           - stream_cards(:stream => stream, :lane => lane).each do |card|  
-            .card-border{draggable: "true", data: {bind: "cardext :{ name :'#{card[:id]}'}"}}
+            .card-border{draggable: "true", ticketId: "#{card[:id]}", data: {bind: "click : handleClick , cardext :{ name :'#{card[:id]}'}"}}
               .card{class: card[:age_class]}
                 %p="##{card[:id]}"
                 %p=card[:Owner]

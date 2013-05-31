@@ -5,6 +5,7 @@
  */
 
 (function(window, document, ko){
+	'use strict';
 	//my extension for knockout 
 	var dragitem = null;
 
@@ -62,7 +63,8 @@
   					if(dragitem.parentNode === event.target){flag = 0;}
   					if(flag) {
   						flag = 0;
-						if(event.target.getAttribute("data-bind").match(/boxext/).length > 0) flag=1; 
+						if(event.target.getAttribute("data-bind") != null)
+							if(event.target.getAttribute("data-bind").match(/boxext/).length > 0) flag=1; 
   					}
   					if(flag) {
   						event.target.appendChild(dragitem);
@@ -73,6 +75,35 @@
 		}
 	});
 
-	ko.applyBindings();
+	var comments = {
+		data : ko.observableArray([]),
+		ticketId : [],
+		currentId : "",
+		handleClick : function(data, event){
+			// get ticket id from event.target and check if its available in the data array
+			// if available check for updates
+			// if not get comments from server
+			console.log(event);
+			var flag = 0;
+			var data = this.data;
+			var currentId = this.currentId =  event.target.parentNode.getAttribute('ticketId');
+			console.log(data.length);
+			for(var i=0; i< data.length; i++){
+				if(data[i].ticketId === currentId){
+					console.log("matched");
+					flag = 1;
+					break;
+				}
+			}
+			if(flag == 0){ //ticket comments have to be fetched from the server
+				this.ticketId.push(currentId);
+			} else { // ticket comments found, request server for updates
+
+			}
+		}
+
+	}
+
+	ko.applyBindings(comments);
 
 })(window, window.document ,ko);
